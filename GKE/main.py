@@ -20,20 +20,18 @@ def python_resize_gke_node_pool(event, context):
                                                                      message['location'],
                                                                      cluster["clusters"][0]["name"])
             node_pool_id = cluster_path + '/nodePools/%s' % (cluster["clusters"][0]["nodePools"][0]["name"])
-            request = service.projects().locations().clusters().nodePools().setSize(name=node_pool_id,
-                                                                                    body=body)
-            response = request.execute()
-            return response
+            request = (service.projects().locations().clusters().nodePools().setSize(name=node_pool_id,
+                                                                                     body=body)).execute()
+            return request
         else:
             for _cluster in cluster["clusters"]:
                 cluster_path = 'projects/%s/locations/%s/clusters/%s' % (message['project'],
                                                                          message['location'],
                                                                          _cluster["name"])
                 node_pool_id = cluster_path + '/nodePools/%s' % (_cluster["nodePools"][0]["name"])
-                request = service.projects().locations().clusters().nodePools().setSize(name=node_pool_id,
-                                                                                        body=body)
-                response = request.execute()
-                return response
+                request = (service.projects().locations().clusters().nodePools().setSize(name=node_pool_id,
+                                                                                         body=body)).execute()
+                return request
     except Exception as error:
         log_message = Template('$error').substitute(error=error)
         logging.error(log_message)

@@ -12,9 +12,9 @@ def python_resize_region_instance_group(event, context):
         log_message = Template('Cloud Function was triggered on $time')
         logging.info(log_message.safe_substitute(time=current_time))
         resize_action = (service.regionInstanceGroupManagers().resize(project=message['project'],
-                                                                     region=message['region'],
-                                                                     instanceGroupManager=message['name'],
-                                                                     size=message['size'])).execute()
+                                                                      region=message['region'],
+                                                                      instanceGroupManager=message['name'],
+                                                                      size=message['size'])).execute()
         return resize_action
     except Exception as error:
         log_message = Template('$error').substitute(error=error)
